@@ -1,6 +1,11 @@
 # Nord ou Sud ?
 
-Application web et mobile de vote : une ville apparaît sur la carte de France et chacun vote, une seule fois par ville, si elle est au nord ou au sud. Les résultats sont visibles par ville, sur une carte et dans un classement.
+Jeu web et mobile : chacun départage les villes de France, une seule fois par ville, entre Nord et Sud.
+
+- **Une seule page, la carte.** Les villes déjà votées sont colorées selon les résultats, les autres restent cachées (« ? ») jusqu'à ce qu'on vote.
+- **Jouer = swiper.** Le bouton « Jouer » ouvre une pile de cartes : glisser à gauche pour Nord, à droite pour Sud. On réduit la pile pour revenir à la carte.
+- **Esprit jeu.** Points, série de votes avec la majorité, niveaux (Touriste égaré → Cartographe du Roi).
+- **Écrans de chargement** avec des citations historiques françaises absurdes, marquées vrai / rapportée / légende.
 
 ## Maquette
 
