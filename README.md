@@ -16,6 +16,10 @@ Jeu web et mobile : chacun départage les villes de France, une seule fois par v
 
 Les chiffres des maquettes sont des exemples.
 
+## Version « officielle »
+
+Variante de la maquette : même jeu, interface sobre façon service public, portée par une institution fictive, l'« Observatoire national du Nord et du Sud ». Les cartes deviennent des dossiers à instruire, le swipe tamponne « CLASSÉ NORD / SUD », le résultat est un arrêté numéroté, les niveaux sont des grades (Agent stagiaire → Conseiller d'État) et l'accueil est un formulaire avec récépissé. Elle ne reprend aucun élément réservé à l'État (Marianne, bloc-marque « République française », système de design de l'État).
+
 ## Sources des données de la maquette
 
 - Contour de la France, départements et régions : [france-geojson](https://github.com/gregoiredavid/france-geojson) (données IGN, Licence Ouverte).
