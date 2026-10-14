@@ -26,5 +26,12 @@ Photos des villes utilisées en fond des cartes de la maquette, toutes issues de
 | Toulouse | Tonio94 | CC BY-SA 2.5 | https://commons.wikimedia.org/wiki/File:Toulouse_-_View_on_Saint_Sernin.jpg |
 | Tours | Szilas | CC BY 4.0 | https://commons.wikimedia.org/wiki/File:Morning_in_September_in_Tours_18.jpg |
 | Vierzon | Croquant | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Vierzon_usines_de_la_Soci%C3%A9t%C3%A9_Fran%C3%A7aise_1.jpg |
+| Montélimar | Abaddon1337 | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Collégiale_Sainte_Croix_Montélimar_-_Théâtre_municipal.jpg |
+| Valence | jean-louis Zimmermann | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:Valence_kiosque_Peynet.jpg |
+| Brive-la-Gaillarde | Benjamin Smith | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Brive-la-Gaillarde_-_Vue_du_château_d'eau_-_2.jpg |
+| Orléans | Sfetcutamina29 | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:La_place_Jeanne_D'Arc,_Orléans.jpg |
+| Angoulême | Jack ma | Public domain | https://commons.wikimedia.org/wiki/File:Angouleme.jpg |
+| Le Puy-en-Velay | Torsade de Pointes | Public domain | https://commons.wikimedia.org/wiki/File:Le_Puy-en-Velay_Cathédrale11.JPG |
+| Saint-Étienne | Velvet | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Saint-etienne_hotel_de_ville.JPG |
 
 Montpellier : pas encore de photo (l'image Wikipedia est un montage).
