@@ -1,0 +1,353 @@
+<title>Nord ou Sud</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout : planche de maquettes, 5 écrans mobiles côte à côte (empilés sur téléphone). Nord = bleu froid, Sud = safran. */
+:root {
+  --bg: #e9edf1;
+  --phone: #f7f8fa;
+  --surface: #ffffff;
+  --ink: #16202b;
+  --muted: #5f6b78;
+  --line: #d5dce3;
+  --land: #dfe5ea;
+  --land-stroke: #b9c4ce;
+  --nord: #2456a6;
+  --nord-soft: #dbe6f7;
+  --sud: #e39a12;
+  --sud-soft: #fbecc9;
+  --sud-ink: #8a5600;
+  --frame: #1b232c;
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Archivo", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f141a; --phone: #161d25; --surface: #1e2731; --ink: #eef2f6; --muted: #98a5b3;
+    --line: #2c3743; --land: #25303c; --land-stroke: #3a4756;
+    --nord: #6f9ef0; --nord-soft: #1d2f4d; --sud: #f2b13a; --sud-soft: #3d2f12; --sud-ink: #f6c76c;
+    --frame: #05080b; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f141a; --phone: #161d25; --surface: #1e2731; --ink: #eef2f6; --muted: #98a5b3;
+  --line: #2c3743; --land: #25303c; --land-stroke: #3a4756;
+  --nord: #6f9ef0; --nord-soft: #1d2f4d; --sud: #f2b13a; --sud-soft: #3d2f12; --sud-ink: #f6c76c;
+  --frame: #05080b; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 64px;
+}
+.intro { max-width: 1240px; margin: 0 auto 36px; display: grid; gap: 10px; }
+.intro .eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.intro h1 { font-family: var(--font-display); font-stretch: 70%; font-weight: 900; font-size: clamp(40px, 7vw, 76px); line-height: .92; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+.intro h1 .n { color: var(--nord); } .intro h1 .s { color: var(--sud); }
+.intro p { margin: 0; max-width: 62ch; color: var(--muted); }
+
+.board { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px 28px; justify-items: center; }
+.screen { display: grid; gap: 12px; width: 100%; max-width: 340px; }
+.screen-label { display: flex; gap: 10px; align-items: baseline; }
+.screen-label b { font-family: var(--font-mono); font-size: 12px; color: var(--muted); font-weight: 500; }
+.screen-label span { font-weight: 700; }
+.screen-note { font-size: 13px; color: var(--muted); margin: 0; }
+
+.phone { width: 100%; aspect-ratio: 9 / 18.5; max-width: 100%; border-radius: 38px; background: var(--frame); padding: 9px; box-shadow: 0 20px 40px -24px rgba(10,20,30,.45); }
+.app { height: 100%; border-radius: 30px; background: var(--phone); overflow: hidden; display: flex; flex-direction: column; position: relative; }
+.status { display: flex; justify-content: space-between; padding: 10px 22px 4px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+.top { display: flex; justify-content: space-between; align-items: center; padding: 6px 16px 8px; }
+.logo { font-family: var(--font-display); font-weight: 900; font-stretch: 70%; font-size: 22px; letter-spacing: -.01em; }
+.logo .n { color: var(--nord); } .logo .s { color: var(--sud); }
+.chip { font-family: var(--font-mono); font-size: 11px; padding: 4px 8px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); color: var(--muted); }
+.body { flex: 1; min-height: 0; padding: 0 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
+
+.map { width: 100%; height: auto; display: block; }
+.map-wrap { position: relative; }
+.compass { position: absolute; font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: .1em; }
+.compass.n { top: 0; left: 0; color: var(--nord); } .compass.s { bottom: 0; left: 0; color: var(--sud-ink); }
+
+.city-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: grid; gap: 2px; }
+.city-card .k { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.city-card .name { font-family: var(--font-display); font-weight: 800; font-stretch: 85%; font-size: 26px; line-height: 1.05; }
+.city-card .meta { font-size: 12.5px; color: var(--muted); }
+
+.vote { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn { border: 0; border-radius: 14px; padding: 14px 8px; font-family: var(--font-display); font-weight: 900; font-stretch: 80%; font-size: 20px; letter-spacing: .02em; display: flex; flex-direction: column; align-items: center; gap: 0; cursor: pointer; }
+.btn small { font-family: var(--font-mono); font-weight: 500; font-size: 10px; letter-spacing: .05em; opacity: .85; }
+.btn.n { background: var(--nord); color: #fff; }
+.btn.s { background: var(--sud); color: #1c1300; }
+.btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.skip { text-align: center; font-size: 13px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+
+.progress { display: grid; gap: 4px; font-size: 12px; color: var(--muted); }
+.progress .track { height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.progress .track i { display: block; height: 100%; width: 20%; background: var(--ink); }
+
+.split { display: grid; gap: 6px; }
+.split .bar { display: flex; height: 34px; border-radius: 10px; overflow: hidden; font-family: var(--font-mono); font-weight: 600; font-size: 13px; }
+.split .bar .n { background: var(--nord); color: #fff; display: flex; align-items: center; padding-left: 10px; }
+.split .bar .s { background: var(--sud); color: #1c1300; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; }
+.split .legend { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+
+.verdict { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: grid; gap: 10px; }
+.verdict h3 { margin: 0; font-family: var(--font-display); font-stretch: 85%; font-size: 21px; font-weight: 800; line-height: 1.1; text-wrap: balance; }
+.yours { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 999px; background: var(--nord-soft); color: var(--nord); justify-self: start; }
+.cta { background: var(--ink); color: var(--phone); border-radius: 14px; padding: 13px; text-align: center; font-weight: 700; }
+
+.tabs { display: flex; gap: 6px; }
+.tab { flex: 1; text-align: center; font-size: 12px; font-weight: 600; padding: 7px 4px; border-radius: 10px; color: var(--muted); background: var(--surface); border: 1px solid var(--line); }
+.tab.on { background: var(--ink); color: var(--phone); border-color: var(--ink); }
+
+.rank { list-style: none; margin: 0; padding: 0; display: grid; }
+.rank li { display: grid; grid-template-columns: 22px 1fr auto; align-items: center; gap: 4px 10px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.rank .pos { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.rank .who { font-weight: 700; font-size: 14px; min-width: 0; }
+.rank .pct { font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
+.rank .mini { grid-column: 2 / 4; display: flex; height: 5px; border-radius: 3px; overflow: hidden; }
+.rank .mini .n { background: var(--nord); } .rank .mini .s { background: var(--sud); }
+.rank .votes { font-weight: 400; color: var(--muted); font-size: 11.5px; margin-left: 6px; font-family: var(--font-mono); }
+
+.legend-scale { display: grid; gap: 4px; font-size: 11px; color: var(--muted); }
+.legend-scale .grad { height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--nord), var(--line) 50%, var(--sud)); }
+.legend-scale .ends { display: flex; justify-content: space-between; font-family: var(--font-mono); }
+.callout { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; font-size: 12.5px; }
+.callout b { font-family: var(--font-mono); }
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; display: grid; }
+.stat b { font-family: var(--font-mono); font-size: 16px; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 11px; color: var(--muted); }
+.back { font-size: 13px; color: var(--muted); }
+
+.nav { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); background: var(--surface); padding: 8px 6px 14px; }
+.nav a { display: grid; justify-items: center; gap: 2px; font-size: 11px; color: var(--muted); text-decoration: none; font-weight: 600; }
+.nav a.on { color: var(--ink); }
+.nav svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.notes { max-width: 1240px; margin: 56px auto 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; }
+.notes h2 { font-size: 13px; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 6px; font-weight: 500; }
+.notes p, .notes ul { margin: 0; font-size: 14px; max-width: 60ch; }
+.notes ul { padding-left: 18px; }
+
+@keyframes pulse { 0% { r: 6; opacity: .7; } 100% { r: 22; opacity: 0; } }
+.pulse { animation: pulse 1.8s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) { .pulse { animation: none; opacity: .3; } }
+</style>
+
+<header class="intro">
+  <div class="eyebrow">Maquette v0.1 · Parcours mobile</div>
+  <h1><span class="n">Nord</span> ou <span class="s">Sud</span>&nbsp;?</h1>
+  <p>Une ville apparaît sur la carte de France, chacun vote une seule fois : est-elle au nord ou au sud&nbsp;? Les résultats s’affichent ville par ville, sur une carte et dans un classement. Les chiffres ci-dessous sont des exemples.</p>
+</header>
+
+<main class="board">
+
+  <!-- 1. Voter -->
+  <section class="screen">
+    <div class="screen-label"><b>01</b><span>Voter</span></div>
+    <div class="phone"><div class="app">
+      <div class="status"><span>9:41</span><span>●●● 5G</span></div>
+      <div class="top"><div class="logo"><span class="n">Nord</span>/<span class="s">Sud</span></div><span class="chip">12 / 60 villes</span></div>
+      <div class="body">
+        <div class="map-wrap"><svg class="map" data-mode="focus" data-focus="Vierzon" viewBox="0 0 600 590" role="img" aria-label="Carte de France avec Vierzon mis en évidence"></svg>
+          <span class="compass n">N</span><span class="compass s">S</span></div>
+        <div class="city-card">
+          <span class="k">Ville à départager</span>
+          <span class="name">Vierzon</span>
+          <span class="meta">Cher · Centre-Val de Loire</span>
+        </div>
+        <div class="vote">
+          <button class="btn n" type="button">↑ NORD<small>c’est le Nord</small></button>
+          <button class="btn s" type="button">↓ SUD<small>c’est le Sud</small></button>
+        </div>
+        <div class="skip">Je ne sais pas, ville suivante</div>
+        <div class="progress"><div class="track"><i></i></div><span>Un seul vote par ville. Tu ne pourras pas le changer.</span></div>
+      </div>
+      <nav class="nav" data-on="0"></nav>
+    </div></div>
+    <p class="screen-note">Écran d’accueil. La ville clignote sur la carte, deux gros boutons, rien d’autre.</p>
+  </section>
+
+  <!-- 2. Résultat -->
+  <section class="screen">
+    <div class="screen-label"><b>02</b><span>Résultat après vote</span></div>
+    <div class="phone"><div class="app">
+      <div class="status"><span>9:41</span><span>●●● 5G</span></div>
+      <div class="top"><div class="logo"><span class="n">Nord</span>/<span class="s">Sud</span></div><span class="chip">13 / 60 villes</span></div>
+      <div class="body">
+        <div class="map-wrap"><svg class="map" data-mode="focus" data-focus="Lyon" data-voted="1" viewBox="0 0 600 590" role="img" aria-label="Carte de France avec Lyon mis en évidence"></svg></div>
+        <div class="verdict">
+          <span class="yours">✓ Tu as voté Nord</span>
+          <h3>Lyon, la France est coupée en deux</h3>
+          <div class="split" data-city="Lyon"></div>
+        </div>
+        <div class="cta">Ville suivante →</div>
+      </div>
+      <nav class="nav" data-on="0"></nav>
+    </div></div>
+    <p class="screen-note">Juste après le vote : la répartition se révèle, avec le nombre de votants.</p>
+  </section>
+
+  <!-- 3. Carte -->
+  <section class="screen">
+    <div class="screen-label"><b>03</b><span>Carte des votes</span></div>
+    <div class="phone"><div class="app">
+      <div class="status"><span>9:41</span><span>●●● 5G</span></div>
+      <div class="top"><div class="logo">La carte</div><span class="chip">24 318 votes</span></div>
+      <div class="body">
+        <div class="map-wrap"><svg class="map" data-mode="all" viewBox="0 0 600 590" role="img" aria-label="Carte des villes colorées selon le vote majoritaire"></svg></div>
+        <div class="legend-scale"><div class="grad"></div><div class="ends"><span>100% Nord</span><span>50/50</span><span>100% Sud</span></div></div>
+        <div class="callout">Pour vous, la frontière passe vers <b>45,9°&nbsp;N</b>, à la hauteur de Clermont-Ferrand et Lyon. Touchez une ville pour voir sa fiche.</div>
+      </div>
+      <nav class="nav" data-on="1"></nav>
+    </div></div>
+    <p class="screen-note">Chaque point est coloré selon la part de votes Nord. La ligne pointillée montre où les votes basculent.</p>
+  </section>
+
+  <!-- 4. Classement -->
+  <section class="screen">
+    <div class="screen-label"><b>04</b><span>Classement</span></div>
+    <div class="phone"><div class="app">
+      <div class="status"><span>9:41</span><span>●●● 5G</span></div>
+      <div class="top"><div class="logo">Classement</div><span class="chip">60 villes</span></div>
+      <div class="body">
+        <div class="tabs"><span class="tab">+ Nord</span><span class="tab">+ Sud</span><span class="tab on">Disputées</span></div>
+        <ol class="rank" data-rank="disputed"></ol>
+      </div>
+      <nav class="nav" data-on="2"></nav>
+    </div></div>
+    <p class="screen-note">Trois onglets : les villes les plus « Nord », les plus « Sud », et les plus disputées (proches du 50/50).</p>
+  </section>
+
+  <!-- 5. Fiche ville -->
+  <section class="screen">
+    <div class="screen-label"><b>05</b><span>Fiche ville</span></div>
+    <div class="phone"><div class="app">
+      <div class="status"><span>9:41</span><span>●●● 5G</span></div>
+      <div class="top"><span class="back">← Classement</span><span class="chip">#3 disputée</span></div>
+      <div class="body">
+        <div class="city-card">
+          <span class="k">Puy-de-Dôme · 45,78° N</span>
+          <span class="name">Clermont-Ferrand</span>
+        </div>
+        <div class="split" data-city="Clermont-Ferrand"></div>
+        <div class="map-wrap"><svg class="map" data-mode="focus" data-focus="Clermont-Ferrand" data-voted="1" viewBox="0 0 600 590" role="img" aria-label="Position de Clermont-Ferrand"></svg></div>
+        <div class="stats">
+          <div class="stat"><b>1 284</b><span>votes</span></div>
+          <div class="stat"><b>#28</b><span>vers le Nord</span></div>
+          <div class="stat"><b>Sud</b><span>ton vote</span></div>
+        </div>
+      </div>
+      <nav class="nav" data-on="2"></nav>
+    </div></div>
+    <p class="screen-note">Ouverte depuis la carte ou le classement : répartition, position, rang et ton propre vote.</p>
+  </section>
+
+</main>
+
+<section class="notes">
+  <div><h2>Règle du vote</h2><p>Un vote par utilisateur et par ville, définitif. Les résultats d’une ville ne sont visibles qu’après y avoir voté, pour ne pas influencer le choix.</p></div>
+  <div><h2>Navigation</h2><ul><li>Voter : une ville à la fois, tirée au hasard</li><li>Carte : toutes les villes, colorées par résultat</li><li>Classement : Nord, Sud, disputées</li></ul></div>
+  <div><h2>À décider ensuite</h2><ul><li>Identification : compte, ou appareil anonyme</li><li>Liste des villes (60 ? préfectures ?)</li><li>Afficher la vraie latitude, ou garder le mystère</li></ul></div>
+</section>
+
+<script>
+// Contour simplifié de la France métropolitaine (lon, lat)
+const FRANCE = [[2.37,51.05],[3.2,50.8],[4.2,50.1],[4.8,50.15],[5.8,49.55],[6.4,49.47],[7.5,49.15],[8.2,48.97],[7.8,48.5],[7.55,47.6],[6.9,47.4],[6.4,46.95],[6.1,46.6],[6.1,46.15],[6.8,46.4],[7.0,45.9],[6.6,45.1],[7.1,44.8],[6.9,44.4],[7.5,43.8],[6.9,43.5],[6.6,43.15],[5.9,43.1],[5.3,43.3],[4.6,43.4],[3.9,43.5],[3.1,43.1],[3.05,42.5],[1.7,42.5],[0.7,42.8],[-0.3,42.8],[-1.8,43.35],[-1.5,43.6],[-1.2,44.6],[-1.25,45.6],[-1.2,46.15],[-2.2,46.9],[-2.5,47.3],[-3.1,47.5],[-4.4,47.8],[-4.7,48.3],[-4.6,48.6],[-3.9,48.7],[-3.0,48.8],[-2.0,48.65],[-1.6,48.65],[-1.6,49.2],[-1.95,49.7],[-1.25,49.7],[-1.1,49.35],[0.1,49.4],[0.2,49.7],[1.4,50.1],[1.6,50.4],[1.6,50.9]];
+const CORSE = [[8.55,42.97],[9.35,43.0],[9.55,42.1],[9.2,41.37],[8.6,41.9]];
+// Exemples de résultats : part de votes Nord (%) et nombre de votes
+const CITIES = [
+  ["Lille",50.63,3.06,98,2412],["Paris",48.86,2.35,93,3120],["Strasbourg",48.58,7.75,91,1544],["Brest",48.39,-4.49,88,902],
+  ["Rennes",48.11,-1.68,84,1210],["Tours",47.39,0.69,71,876],["Dijon",47.32,5.04,66,931],["Nantes",47.22,-1.55,63,1388],
+  ["Bourges",47.08,2.40,58,604],["Vierzon",47.22,2.07,52,412],["Lyon",45.76,4.84,51,2876],["Poitiers",46.58,0.34,49,745],
+  ["Clermont-Ferrand",45.78,3.08,46,1284],["Annecy",45.90,6.13,44,690],["Limoges",45.83,1.26,41,812],["La Rochelle",46.16,-1.15,37,701],
+  ["Grenoble",45.19,5.72,32,1102],["Bordeaux",44.84,-0.58,14,1890],["Biarritz",43.48,-1.56,6,540],["Toulouse",43.60,1.44,4,1975],
+  ["Montpellier",43.61,3.88,3,1306],["Nice",43.70,7.27,3,1422],["Marseille",43.30,5.37,2,2468]
+];
+const proj = ([lon, lat]) => [((lon + 5) * 40).toFixed(1), ((51.3 - lat) * 58).toFixed(1)];
+const pathOf = pts => "M" + pts.map(p => proj(p).join(",")).join("L") + "Z";
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const byName = Object.fromEntries(CITIES.map(c => [c[0], c]));
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+
+function mix(a, b, t) {
+  const h = x => [1,3,5].map(i => parseInt(x.slice(i, i + 2), 16));
+  const [A, B] = [h(a), h(b)];
+  return "rgb(" + A.map((v, i) => Math.round(v + (B[i] - v) * t)).join(",") + ")";
+}
+function colorFor(nord) {
+  const t = nord / 100;
+  return t >= .5 ? mix(css("--line"), css("--nord"), (t - .5) * 2) : mix(css("--line"), css("--sud"), (.5 - t) * 2);
+}
+
+function drawMap(svg) {
+  svg.replaceChildren();
+  const mode = svg.dataset.mode, focus = svg.dataset.focus;
+  for (const p of [FRANCE, CORSE]) svg.append(el("path", { d: pathOf(p), fill: "var(--land)", stroke: "var(--land-stroke)", "stroke-width": 2, "stroke-linejoin": "round" }));
+  if (mode === "all") {
+    const y = proj([0, 45.9])[1];
+    svg.append(el("line", { x1: 20, x2: 580, y1: y, y2: y, stroke: "var(--ink)", "stroke-width": 2, "stroke-dasharray": "8 7", opacity: .55 }));
+    const t = el("text", { x: 578, y: y - 10, "text-anchor": "end", fill: "var(--muted)", "font-family": "IBM Plex Mono, monospace", "font-size": 20 });
+    t.textContent = "50 / 50"; svg.append(t);
+    for (const [name, lat, lon, nord] of CITIES) {
+      const [x, y2] = proj([lon, lat]);
+      svg.append(el("circle", { cx: x, cy: y2, r: 13, fill: colorFor(nord), stroke: "var(--phone)", "stroke-width": 3 }));
+    }
+    for (const n of ["Lille", "Lyon", "Marseille", "Brest", "Bordeaux"]) {
+      const [, lat, lon] = byName[n]; const [x, y2] = proj([lon, lat]);
+      const t2 = el("text", { x: +x + 18, y: +y2 + 7, fill: "var(--ink)", "font-family": "Archivo, sans-serif", "font-size": 21, "font-weight": 700 });
+      t2.textContent = n; svg.append(t2);
+    }
+  } else {
+    for (const [name, lat, lon] of CITIES) {
+      if (name === focus) continue;
+      const [x, y] = proj([lon, lat]);
+      svg.append(el("circle", { cx: x, cy: y, r: 5, fill: "var(--land-stroke)" }));
+    }
+    const c = byName[focus]; const [x, y] = proj([c[2], c[1]]);
+    const accent = svg.dataset.voted ? (c[3] >= 50 ? "var(--nord)" : "var(--sud)") : "var(--ink)";
+    svg.append(el("circle", { cx: x, cy: y, r: 6, fill: "none", stroke: accent, "stroke-width": 4, class: "pulse" }));
+    svg.append(el("circle", { cx: x, cy: y, r: 14, fill: accent, stroke: "var(--phone)", "stroke-width": 4 }));
+  }
+}
+
+function drawSplit(box) {
+  const [, , , nord, votes] = byName[box.dataset.city];
+  box.innerHTML = `<div class="bar"><span class="n" style="width:${nord}%">${nord}%</span><span class="s" style="width:${100 - nord}%">${100 - nord}%</span></div>
+    <div class="legend"><span>Nord</span><span>${votes.toLocaleString("fr-FR")} votes</span><span>Sud</span></div>`;
+}
+
+function drawRank(ol) {
+  const list = [...CITIES].sort((a, b) => Math.abs(a[3] - 50) - Math.abs(b[3] - 50)).slice(0, 8);
+  ol.innerHTML = list.map((c, i) => `<li><span class="pos">${i + 1}</span>
+    <span class="who">${c[0]}<span class="votes">${c[4].toLocaleString("fr-FR")}</span></span>
+    <span class="pct">${c[3]} / ${100 - c[3]}</span>
+    <span class="mini"><span class="n" style="width:${c[3]}%"></span><span class="s" style="width:${100 - c[3]}%"></span></span></li>`).join("");
+}
+
+const NAV = [
+  ["Voter", '<path d="M5 12l5 5L20 7"/>'],
+  ["Carte", '<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/>'],
+  ["Classement", '<path d="M6 20V10M12 20V4M18 20v-7"/>']
+];
+function drawNav(nav) {
+  nav.innerHTML = NAV.map(([label, icon], i) => `<a href="#" class="${i == nav.dataset.on ? "on" : ""}" onclick="return false"><svg viewBox="0 0 24 24">${icon}</svg>${label}</a>`).join("");
+}
+
+function render() {
+  document.querySelectorAll("svg.map").forEach(drawMap);
+  document.querySelectorAll(".split[data-city]").forEach(drawSplit);
+  document.querySelectorAll("ol.rank").forEach(drawRank);
+  document.querySelectorAll("nav.nav").forEach(drawNav);
+}
+render();
+// Recolorer les points si le thème change
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
+new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+</script>
