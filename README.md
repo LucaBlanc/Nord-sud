@@ -2,6 +2,7 @@
 
 Jeu web et mobile : chacun départage les villes de France, une seule fois par ville, entre Nord et Sud.
 
+- **Accueil.** On demande d'où vient le joueur, puis s'il place sa propre ville au Nord ou au Sud. Sa ville porte ensuite un drapeau sur la carte.
 - **Une seule page, la carte.** Les villes déjà votées sont colorées selon les résultats, les autres restent cachées (« ? ») jusqu'à ce qu'on vote.
 - **Jouer = swiper.** Le bouton « Jouer » ouvre une pile de cartes : glisser à gauche pour Nord, à droite pour Sud. On réduit la pile pour revenir à la carte.
 - **Esprit jeu.** Points, série de votes avec la majorité, niveaux (Touriste égaré → Cartographe du Roi).
