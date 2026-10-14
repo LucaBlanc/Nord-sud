@@ -5,6 +5,7 @@ Jeu web et mobile : chacun départage les villes de France, une seule fois par v
 - **Accueil.** On demande d'où vient le joueur, puis s'il place sa propre ville au Nord ou au Sud. Sa ville porte ensuite un drapeau sur la carte.
 - **Une seule page, la carte.** Les villes déjà votées sont colorées selon les résultats, les autres restent cachées (« ? ») jusqu'à ce qu'on vote.
 - **Jouer = swiper.** Le bouton « Jouer » ouvre une pile de cartes : glisser à gauche pour Nord, à droite pour Sud. On réduit la pile pour revenir à la carte.
+- **Les villes qui divisent.** En plus des grandes villes, la pile met en avant les villes où le débat fait rire : Montélimar, Valence, Brive-la-Gaillarde, Orléans, Saint-Étienne, Angoulême, Le Puy-en-Velay, Lyon, Clermont-Ferrand, Limoges… Chacune a un badge « Ville qui divise » et une phrase sur le débat.
 - **Esprit jeu.** Points, série de votes avec la majorité, niveaux (Touriste égaré → Cartographe du Roi).
 - **Écrans de chargement** avec des citations historiques françaises absurdes, marquées vrai / rapportée / légende.
 
