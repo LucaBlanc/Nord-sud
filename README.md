@@ -14,3 +14,9 @@ Jeu web et mobile : chacun départage les villes de France, une seule fois par v
 - `maquette/index.html` : première planche, écrans mobiles seulement. Ouvrir le fichier dans un navigateur.
 
 Les chiffres des maquettes sont des exemples.
+
+## Sources des données de la maquette
+
+- Contour de la France, départements et régions : [france-geojson](https://github.com/gregoiredavid/france-geojson) (données IGN, Licence Ouverte).
+- Rivières, massifs et contour de l'Europe : [Natural Earth](https://www.naturalearthdata.com/) (domaine public).
+- Photos des villes : Wikimedia Commons, voir `maquette/photos/CREDITS.md`.
